@@ -1,6 +1,4 @@
 package ploymorphism;
-
-
 public class Employee {
     private static String companyName="ZOHO";
     private int id;
@@ -44,14 +42,8 @@ public class Employee {
     public void setCompanyName(String companyName) {
         Employee.companyName = companyName;
     }
-    public void getEmployeeDetails(Employee employee){
-        System.out.println("EmpId = "+employee.getId()+",Name = "+employee.getName()+",PhoneNo = "+employee.getPhoneNo()+",Company name = "+employee.getCompanyName());
-    }
-    public void getEmployeDetails(HourlyEmployee hourlyEmployee){
-        System.out.println("EmpId = "+hourlyEmployee.getId()+",Name = "+hourlyEmployee.getName()+",PhoneNo = "+hourlyEmployee.getPhoneNo()+",Hour salary = "+hourlyEmployee.getHourSalary()+",Company name = "+hourlyEmployee.getCompanyName());
-    }
-    public void getEmployeDetails(SalariedEmployee salariedEmployee){
-        System.out.println("EmpId = "+salariedEmployee.getId()+",Name = "+salariedEmployee.getName()+",PhoneNo = "+salariedEmployee.getPhoneNo()+",Hour salary = "+salariedEmployee.getTotalSalary()+",Bonus = "+salariedEmployee.getBonus()+",Company name = "+salariedEmployee.getCompanyName());
+    public void getEmployeeDetails(){
+        System.out.println("EmpId = "+getId()+",Name = "+getName()+",PhoneNo = "+getPhoneNo()+",Company name = "+getCompanyName());
     }
 }
 class HourlyEmployee extends Employee{
@@ -69,6 +61,9 @@ class HourlyEmployee extends Employee{
 
     public void setHourSalary(double hourSalary) {
         this.hourSalary = hourSalary;
+    }
+    public void getEmployeeDetails(){
+        System.out.println("EmpId = "+getId()+",Name = "+getName()+",PhoneNo = "+getPhoneNo()+",Hours salary = "+getHourSalary()+",Company name = "+getCompanyName());
     }
 }
 class SalariedEmployee extends  Employee{
@@ -96,16 +91,17 @@ class SalariedEmployee extends  Employee{
     public void setBonus(double bonus) {
         this.bonus = bonus;
     }
+    public void getEmployeeDetails(){
+        System.out.println("EmpId = "+getId()+",Name = "+getName()+",PhoneNo = "+getPhoneNo()+",Total salary = "+getTotalSalary()+"Bonus = "+getBonus()+",Company name = "+getCompanyName());
+    }
 }
 class EmployeeDriver{
     public static void main(String[] args) {
         Employee employee=new Employee(222,"Ram",987654321);
-        employee.getEmployeeDetails(employee);
+        employee.getEmployeeDetails();
         Employee employee1=new HourlyEmployee(777,"Jack",1234567890,750);
-        HourlyEmployee hourlyEmployee=(HourlyEmployee)employee1;
-        employee.getEmployeDetails(hourlyEmployee);
+        employee1.getEmployeeDetails();
         Employee employee2=new SalariedEmployee(888,"Tom",77777777,10000,2000);
-        SalariedEmployee salariedEmployee=(SalariedEmployee)employee2;
-        employee.getEmployeDetails(salariedEmployee);
+        employee2.getEmployeeDetails();
     }
 }
