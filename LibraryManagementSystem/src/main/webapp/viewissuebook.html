@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Issued Books</title>
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        #booksTable {
+            display: none; /* Hide the table by default */
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2 id="tableTitle" style="display: none;">List of Issued Books</h2>
+    <table id="booksTable" class="table table-striped">
+        <thead>
+        <tr>
+            <th>S.No</th>
+            <th>User Email</th>
+            <th>Book Name</th>
+            <th>Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Rows will be dynamically populated -->
+        </tbody>
+    </table>
+</div>
+
+<script>
+    // Fetch issued books from the servlet
+    fetch('ViewIssuedBook')
+        .then(response => response.json())
+        .then(data => {
+            if (data.message) {
+                // If no books are issued, show alert and redirect to the admin page
+                alert(data.message);
+                window.location.href = data.redirectUrl; // Redirect immediately
+                return; // Stop further execution
+            }
+
+            // If books are available, show the table and populate it
+            if (data.issuedBooks && data.issuedBooks.length > 0) {
+                const books = data.issuedBooks;
+                const tableBody = document.querySelector('#booksTable tbody');
+
+                // Show the table and title
+                document.getElementById('booksTable').style.display = 'table';
+                document.getElementById('tableTitle').style.display = 'block';
+
+                books.forEach((book, index) => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${index + 1}</td>
+                        <td>${book.email}</td>
+                        <td>${book.bookName}</td>
+                        <td>${book.status}</td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching issued books:', error);
+            alert('Failed to load books. Please try again later.');
+        });
+</script>
+</body>
+</html>
